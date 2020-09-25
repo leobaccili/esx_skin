@@ -70,10 +70,28 @@ function OpenMenu(submitCb, cancelCb, restrict)
 
             table.insert(elements, data)
         end
-
+		
+		local submitButton = {name = 'submit_button', label = 'Criar', type = 'button'} 
+		local cancelButton = {name = 'cancel_button', label = 'Cancelar', type = 'button'}
+		table.insert(elements, submitButton)
+		table.insert(elements, cancelButton)
+		
         CreateSkinCam()
         zoomOffset = _components[1].zoomOffset
         camOffset = _components[1].camOffset
+			
+		M('ui.menu')
+			
+		local menu = Menu:create('test', {
+		  title = 'Criar Boneco',
+		  float = 'top|left',
+		  items = elements
+		})
+			
+		menu:on('item.change', function(item, prop, val, index)
+		  if (item.name == 'submit_button') and (prop == 'value') then
+			item.label = 'Dynamic label ' .. tostring(val);
+		end)
 
         ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'skin', {
             title    = _U('skin_menu'),
